@@ -8,7 +8,17 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  login    String @unique
+  id       Int       @id @default(autoincrement())
+  login    String    @unique
   password String
+  Profile  Profile[]
+}
+
+model Profile {
+  id       BigInt   @id @default(autoincrement())
+  name     String   @db.VarChar
+  lastname String   @db.VarChar
+  birthday DateTime @db.Date
+  user_id  BigInt
+  User     User     @relation(fields: [user_id], references: [id])
 }

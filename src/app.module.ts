@@ -5,13 +5,15 @@ import { AuthModule } from "./auth/auth.module";
 import { RegistrationModule } from "./registration/registration.module";
 import { UserModule } from "./user/user.module";
 import { PrismaModule } from "./prisma/prisma.module";
+import { ProfileModule } from './profile/profile.module';
 
 @Module({
   imports: [
     PrismaModule,
     AuthModule,
     RegistrationModule,
-    UserModule
+    UserModule,
+    ProfileModule
   ],
   controllers: [
     AppController,
