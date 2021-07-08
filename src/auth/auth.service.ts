@@ -3,6 +3,8 @@ import { UserService } from "../user/user.service";
 import { JwtService } from "@nestjs/jwt";
 import { UserDto } from "../dto/UserDto";
 import { AuthException } from "./auth.exception";
+import * as bcrypt from "bcrypt";
+import { Response } from 'express'
 
 @Injectable()
 export class AuthService {
@@ -12,24 +14,15 @@ export class AuthService {
   ) {
   }
 
-  async validateUser(login: string, pass: string): Promise<any> {
-    const user = await this.usersService.findByLogin(login);
-    if (user && user.password === pass) {
-      const { password, ...result } = user;
-      return result;
-    }
-    return null;
-  }
-
-  async login(userDto: UserDto) {
+  async login(userDto: UserDto, response: Response) {
     const user = await this.usersService.findByLogin(userDto.login);
-    if (user.password !== userDto.password) {
+    if (!await bcrypt.compare(userDto.password, user.password) ) {
       throw new AuthException();
     }
 
-    const payload = { login: user.login, sub: user.id };
+    response.cookie('jwt', this.jwtService.sign( { login: user.login, sub: user.id }), {httpOnly: true})
     return {
-      access_token: this.jwtService.sign(payload)
+      message: 'success'
     };
   }
 }

@@ -11,14 +11,14 @@ model User {
   id       Int       @id @default(autoincrement())
   login    String    @unique
   password String
-  Profile  Profile[]
+  profile  Profile?
 }
 
 model Profile {
   id       BigInt   @id @default(autoincrement())
-  name     String   @db.VarChar
-  lastname String   @db.VarChar
-  birthday DateTime @db.Date
-  user_id  BigInt
-  User     User     @relation(fields: [user_id], references: [id])
+  name     String
+  lastname String
+  birthday DateTime
+  userId   Int
+  user     User     @relation(fields: [userId], references: [id])
 }

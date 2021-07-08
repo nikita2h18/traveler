@@ -1,7 +1,8 @@
-import { Injectable } from "@nestjs/common";
-import { PrismaService } from "../prisma/prisma.service";
-import { RegistrationUserDto } from "../dto/RegistrationUserDto";
-import { RegistrationException } from "./registration.exception";
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
+import { RegistrationUserDto } from '../dto/RegistrationUserDto';
+import { RegistrationException } from './registration.exception';
+import  * as bcrypt from 'bcrypt'
 
 @Injectable()
 export class RegistrationService {
