@@ -3,10 +3,7 @@ import { Request } from "express";
 import { ProfileDto } from "../dto/ProfileDto";
 import { JwtService } from "@nestjs/jwt";
 import { PrismaService } from "../prisma/prisma.service";
-import { User } from "../Model/User";
 import { UserService } from "../user/user.service";
-import { Profile } from "../Model/Profile";
-import { connect } from "tls";
 
 
 @Injectable()
