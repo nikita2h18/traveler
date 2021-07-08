@@ -15,8 +15,8 @@ export class ProfileService {
   ) {
   }
 
-  async createProfile(request: Request, profileDto: ProfileDto) {
-    const userValidate = await this.jwtService.verifyAsync(request.cookies["jwt"]);
+  async createProfile(token: string, profileDto: ProfileDto) {
+    const userValidate = await this.jwtService.verifyAsync(token);
     if (!userValidate) {
       throw new UnauthorizedException();
     }
