@@ -1,22 +1,21 @@
 import { Module } from "@nestjs/common";
 import { ProfileService } from "./profile.service";
 import { ProfileController } from "./profile.controller";
-import { jwtConstants } from "../auth/constants";
-import { JwtModule } from "@nestjs/jwt";
 import { PrismaService } from "../prisma/prisma.service";
 import { UserService } from "../user/user.service";
+import { JwtModule, JwtService } from "@nestjs/jwt";
+import { jwtConstants } from "../auth/constants";
+import { UserModule } from "../user/user.module";
 
 @Module({
   imports: [
-    JwtModule.register({
-      secret: jwtConstants.secret,
-      signOptions: { expiresIn: '1d' },
-    }),
+    UserModule,
   ],
   providers: [
     ProfileService,
-    PrismaService,
     UserService,
+    PrismaService,
+    JwtService
   ],
   controllers: [ProfileController]
 })
