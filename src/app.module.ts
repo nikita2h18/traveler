@@ -6,6 +6,7 @@ import { RegistrationModule } from "./registration/registration.module";
 import { UserModule } from "./user/user.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { ProfileModule } from './profile/profile.module';
+import { TravelModule } from './travel/travel.module';
 
 @Module({
   imports: [
@@ -13,7 +14,8 @@ import { ProfileModule } from './profile/profile.module';
     AuthModule,
     RegistrationModule,
     UserModule,
-    ProfileModule
+    ProfileModule,
+    TravelModule
   ],
   controllers: [
     AppController,

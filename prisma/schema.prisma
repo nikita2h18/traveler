@@ -12,13 +12,23 @@ model User {
   login    String    @unique
   password String
   profile  Profile?
+  travel   Travel[]
 }
 
 model Profile {
-  id       BigInt   @id @default(autoincrement())
+  id       Int   @id @default(autoincrement())
   name     String
   lastname String
   birthday DateTime
   userId   Int
   user     User     @relation(fields: [userId], references: [id])
+}
+
+model Travel {
+     id          Int   @id @default(autoincrement())
+     description String
+     pointFrom   String
+     pointTo     String
+     userId      Int
+     user        User     @relation(fields: [userId], references: [id])
 }
