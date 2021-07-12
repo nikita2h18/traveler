@@ -20,6 +20,18 @@ export class UserService {
     return await this.findByLogin(userValidate.login)
   }
 
+  async findById(id: number) {
+    const user = await this.prismaService.user.findUnique({
+      where: { id }
+    });
+
+    if (!user) {
+      throw new UserException();
+    }
+
+    return user;
+  }
+
   async findByLogin(login: string) {
     const user = await this.prismaService.user.findUnique({
       where: {

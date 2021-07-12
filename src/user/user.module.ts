@@ -1,7 +1,7 @@
-import { Module } from '@nestjs/common';
-import { UserService } from './user.service';
+import { Module } from "@nestjs/common";
+import { UserService } from "./user.service";
 import { PrismaService } from "../prisma/prisma.service";
-import { JwtModule, JwtService } from "@nestjs/jwt";
+import { JwtModule } from "@nestjs/jwt";
 import { jwtConstants } from "../auth/constants";
 import { JwtStrategy } from "../auth/jwt.strategy";
 
@@ -9,14 +9,18 @@ import { JwtStrategy } from "../auth/jwt.strategy";
   imports: [
     JwtModule.register({
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: '1d' },
-    }),
+      signOptions: { expiresIn: "1d" }
+    })
   ],
   providers: [
     UserService,
     PrismaService,
     JwtStrategy
   ],
-  exports: [UserService],
+  exports: [
+    UserService,
+    JwtModule
+  ]
 })
-export class UserModule {}
+export class UserModule {
+}

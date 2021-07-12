@@ -26,4 +26,10 @@ export class TravelService {
       }
     });
   }
+
+  async getTravel(id: number) {
+    return this.prismaService.travel.findUnique({
+      where: { id }
+    })
+  }
 }

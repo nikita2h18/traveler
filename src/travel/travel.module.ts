@@ -3,8 +3,9 @@ import { TravelController } from "./travel.controller";
 import { TravelService } from "./travel.service";
 import { UserService } from "../user/user.service";
 import { PrismaService } from "../prisma/prisma.service";
-import { JwtService } from "@nestjs/jwt";
+import { JwtModule, JwtService } from "@nestjs/jwt";
 import { UserModule } from "../user/user.module";
+import { jwtConstants } from "../auth/constants";
 
 @Module({
   imports: [
@@ -15,7 +16,6 @@ import { UserModule } from "../user/user.module";
     TravelService,
     UserService,
     PrismaService,
-    JwtService
   ]
 })
 export class TravelModule {
