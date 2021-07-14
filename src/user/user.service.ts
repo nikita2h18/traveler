@@ -32,6 +32,22 @@ export class UserService {
     return user;
   }
 
+  async findByTravel(id: number) {
+    const travel = await this.prismaService.travel.findUnique({
+      where: {
+        id
+      }
+    });
+
+    const user = this.findById(travel.userId)
+
+    if (!user) {
+      throw new UserException();
+    }
+
+    return user;
+  }
+
   async findByLogin(login: string) {
     const user = await this.prismaService.user.findUnique({
       where: {

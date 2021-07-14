@@ -32,4 +32,17 @@ export class TravelService {
       where: { id }
     })
   }
+
+  async getAllTravels() {
+    return this.prismaService.travel.findMany()
+  }
+
+  async getAllUserTravels(login: string) {
+    const user = await this.userService.findByLogin(login);
+    return this.prismaService.travel.findMany({
+      where: {
+        userId: user.id
+      }
+    })
+  }
 }
