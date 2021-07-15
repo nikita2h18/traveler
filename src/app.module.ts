@@ -7,6 +7,7 @@ import { UserModule } from "./user/user.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { ProfileModule } from "./profile/profile.module";
 import { TravelModule } from "./travel/travel.module";
+import { LikeModule } from './like/like.module';
 
 @Module({
   imports: [
@@ -15,7 +16,8 @@ import { TravelModule } from "./travel/travel.module";
     RegistrationModule,
     UserModule,
     ProfileModule,
-    TravelModule
+    TravelModule,
+    LikeModule
   ],
   controllers: [
     AppController,

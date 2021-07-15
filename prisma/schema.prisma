@@ -8,27 +8,35 @@ datasource db {
 }
 
 model User {
-  id       Int       @id @default(autoincrement())
-  login    String    @unique
+  id       Int      @id @default(autoincrement())
+  login    String   @unique
   password String
   profile  Profile?
   travel   Travel[]
 }
 
 model Profile {
-  id       Int   @id @default(autoincrement())
+  id       Int      @id @default(autoincrement())
   name     String
   lastname String
   birthday DateTime
-  userId   Int
+  userId   Int      @unique
   user     User     @relation(fields: [userId], references: [id])
 }
 
 model Travel {
-     id          Int   @id @default(autoincrement())
-     description String
-     pointFrom   String
-     pointTo     String
-     userId      Int
-     user        User     @relation(fields: [userId], references: [id])
+  id          Int    @id @default(autoincrement())
+  description String
+  pointFrom   String
+  pointTo     String
+  userId      Int
+  user        User   @relation(fields: [userId], references: [id])
+  like        Like[]
+}
+
+model Like {
+  travelId Int
+  userId   Int?
+  id       Int    @id @default(autoincrement())
+  travel   Travel @relation(fields: [travelId], references: [id])
 }
