@@ -25,12 +25,13 @@ model Profile {
 }
 
 model Travel {
-  id          Int    @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   description String
   pointFrom   String
   pointTo     String
   userId      Int
-  user        User   @relation(fields: [userId], references: [id])
+  user        User      @relation(fields: [userId], references: [id])
+  Comment     Comment[]
   like        Like[]
 }
 
@@ -39,4 +40,12 @@ model Like {
   userId   Int?
   id       Int    @id @default(autoincrement())
   travel   Travel @relation(fields: [travelId], references: [id])
+}
+
+model Comment {
+  id       Int    @id @default(autoincrement())
+  message  String
+  travelId Int
+  userid   Int
+  Travel   Travel @relation(fields: [travelId], references: [id])
 }
