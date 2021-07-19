@@ -10,11 +10,38 @@ export class LikeService {
   ) {
   }
 
-  async addLike(travelId: number, token: string) {
+  async like(travelId: number, token: string) {
     const user = await this.userService.validateUser(token);
+    const like = await this.prismaService.like.findFirst({
+      where: {
+        userId: user.id,
+        travelId: travelId
+      }
+    })
+
+    if (!like) {
+      await this.addLike(travelId, user);
+    } else {
+      await this.deleteLike(like);
+    }
+
+    return this.allLikes();
+  }
+
+  async addLike(travelId: number, user) {
     return this.prismaService.travel.update({
       where: { id: travelId },
       data: { like: { create: { userId: user.id } } }
     });
+  }
+
+  async deleteLike(like) {
+    return this.prismaService.like.delete({
+      where: { id: like.id }
+    })
+  }
+
+  async allLikes() {
+    return this.prismaService.like.findMany();
   }
 }

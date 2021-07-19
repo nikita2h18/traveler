@@ -6,8 +6,8 @@ export class LikeController {
   constructor(private likeService: LikeService) {
   }
 
-  @Post()
+  @Post('/:id')
   addLike(@Param('id') travelId: number, @Headers('token') token: string) {
-    return this.likeService.addLike(Number(travelId), token);
+    return this.likeService.like(Number(travelId), token);
   }
 }
