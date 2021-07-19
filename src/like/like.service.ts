@@ -44,4 +44,16 @@ export class LikeService {
   async allLikes() {
     return this.prismaService.like.findMany();
   }
+
+  async isLiked(travelId: number, token) {
+    const user = await this.userService.validateUser(token);
+    const like = await this.prismaService.like.findFirst({
+      where: {
+        travelId: travelId,
+        userId: user.id
+      }
+    });
+
+    return !!like;
+  }
 }

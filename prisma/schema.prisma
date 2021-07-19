@@ -31,7 +31,7 @@ model Travel {
   pointTo     String
   userId      Int
   user        User      @relation(fields: [userId], references: [id])
-  Comment     Comment[]
+  comment     Comment[]
   like        Like[]
 }
 
