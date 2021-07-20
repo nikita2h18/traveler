@@ -17,4 +17,9 @@ export class UserController {
   getUserByToken(@Headers('token') token: string) {
     return this.userService.validateUser(token);
   }
+
+  @Get("get/:id")
+  getUserById(@Param('id') id: string) {
+    return this.userService.findById(Number(id));
+  }
 }

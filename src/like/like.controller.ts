@@ -11,8 +11,13 @@ export class LikeController {
     return this.likeService.like(Number(travelId), token);
   }
 
-  @Get()
+  @Get('/:id')
   isLiked(@Param('id') travelId: number, @Headers('token') token: string) {
-    return this.likeService.isLiked(travelId, token);
+    return this.likeService.isLiked(Number(travelId), token);
+  }
+
+  @Get('all/:id')
+  getAllByTravel(@Param('id') travelId: string) {
+    return this.likeService.findByTravel(Number(travelId));
   }
 }

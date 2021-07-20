@@ -33,4 +33,11 @@ export class CommentService {
     });
   }
 
+  async getByTravel(travelId: number) {
+    return this.prismaService.comment.findMany({
+      where: {
+        travelId
+      }
+    });
+  }
 }

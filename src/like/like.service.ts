@@ -25,7 +25,7 @@ export class LikeService {
       await this.deleteLike(like);
     }
 
-    return this.allLikes();
+    return this.findByTravel(travelId);
   }
 
   async addLike(travelId: number, user) {
@@ -41,8 +41,12 @@ export class LikeService {
     })
   }
 
-  async allLikes() {
-    return this.prismaService.like.findMany();
+  async findByTravel(id: number) {
+    return this.prismaService.like.findMany({
+      where: {
+        travelId: id
+      }
+    });
   }
 
   async isLiked(travelId: number, token) {
