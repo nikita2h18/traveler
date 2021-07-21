@@ -13,6 +13,7 @@ model User {
   password String
   profile  Profile?
   travel   Travel[]
+  subscriber Subscriber[]
 }
 
 model Profile {
@@ -48,4 +49,11 @@ model Comment {
   travelId Int
   userid   Int
   Travel   Travel @relation(fields: [travelId], references: [id])
+}
+
+model Subscriber {
+  id       Int    @id @default(autoincrement())
+  subscriberId Int
+  userId  Int
+  user User @relation(fields: [userId], references: [id])
 }

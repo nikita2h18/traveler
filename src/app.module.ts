@@ -9,6 +9,7 @@ import { ProfileModule } from "./profile/profile.module";
 import { TravelModule } from "./travel/travel.module";
 import { LikeModule } from './like/like.module';
 import { CommentModule } from "./comment/comment.module";
+import { SubscriberModule } from './subscriber/subscriber.module';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { CommentModule } from "./comment/comment.module";
     ProfileModule,
     TravelModule,
     LikeModule,
-    CommentModule
+    CommentModule,
+    SubscriberModule
   ],
   controllers: [
     AppController,

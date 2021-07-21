@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { ProfileDto } from "../dto/ProfileDto";
 import { PrismaService } from "../prisma/prisma.service";
 import { UserService } from "../user/user.service";
+import { User } from "../model/User";
 
 
 @Injectable()
@@ -27,5 +28,13 @@ export class ProfileService {
         }
       }
     });
+  }
+
+  async getProfile(userId: number) {
+    return this.prismaService.profile.findMany({
+      where: {
+        userId: userId
+      }
+    })
   }
 }

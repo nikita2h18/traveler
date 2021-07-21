@@ -37,11 +37,10 @@ export class TravelService {
     return this.prismaService.travel.findMany()
   }
 
-  async getAllUserTravels(login: string) {
-    const user = await this.userService.findByLogin(login);
+  async getAllUserTravels(id: number) {
     return this.prismaService.travel.findMany({
       where: {
-        userId: user.id
+        userId: id
       }
     })
   }

@@ -17,9 +17,9 @@ export class TravelController {
     return this.travelService.getAllTravels();
   }
 
-  @Get('user')
-  getAllUserTravels(@Body() login: string) {
-    return this.travelService.getAllUserTravels(login);
+  @Get('user/:id')
+  getAllUserTravels(@Param('id') id: string) {
+    return this.travelService.getAllUserTravels(Number(id));
   }
 
   @Post('add')
