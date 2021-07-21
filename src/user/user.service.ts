@@ -51,7 +51,7 @@ export class UserService {
   async findByLogin(login: string) {
     const user = await this.prismaService.user.findUnique({
       where: {
-        login
+        login: login,
       }
     });
 
@@ -60,5 +60,11 @@ export class UserService {
     }
 
     return user;
+  }
+  async findAll(token: string) {
+    const user = await this.validateUser(token);
+    const users = await this.prismaService.user.findMany();
+
+    return users.filter(u => u.id !== user.id);
   }
 }

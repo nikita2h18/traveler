@@ -22,4 +22,9 @@ export class UserController {
   getUserById(@Param('id') id: string) {
     return this.userService.findById(Number(id));
   }
+
+  @Get("all")
+  getAll(@Headers('token') token: string) {
+    return this.userService.findAll(token);
+  }
 }
