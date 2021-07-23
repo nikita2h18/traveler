@@ -1,23 +1,23 @@
 import { Body, Controller, Delete, Get, Headers, Param, Post } from "@nestjs/common";
 import { SubscriberService } from "./subscriber.service";
 
-@Controller('subscriber')
+@Controller("subscriber")
 export class SubscriberController {
   constructor(private subscriberService: SubscriberService) {
   }
 
   @Post()
-  subscribe(@Headers('token') token: string, @Body() userId: number) {
-    return this.subscriberService.subscribe(token, userId);
+  subscribe(@Headers("token") token: string, @Body() user: { userId: number }) {
+    return this.subscriberService.subscribe(token, user.userId);
   }
 
-  @Get('all/:id')
-  getUserSubscribers(@Param('id') id: string) {
-    return this.subscriberService.getUserSubscribers(Number(id));
+  @Get("all/:id")
+  getUserSubscribes(@Param("id") id: string) {
+    return this.subscriberService.getUserSubscribes(Number(id));
   }
 
-  @Delete()
-  unsubscribe(@Headers('token') token: string, @Body() userId: number) {
-    return this.subscriberService.unsubscribe(token, userId);
+  @Delete(':id')
+  unsubscribe(@Headers("token") token: string, @Param('id') userId: string) {
+    return this.subscriberService.unsubscribe(token, Number(userId));
   }
 }

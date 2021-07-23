@@ -17,7 +17,7 @@ export class UserService {
       throw new UnauthorizedException();
     }
 
-    return await this.findByLogin(userValidate.login)
+    return await this.findByLogin(userValidate.login);
   }
 
   async findById(id: number) {
@@ -39,7 +39,7 @@ export class UserService {
       }
     });
 
-    const user = this.findById(travel.userId)
+    const user = this.findById(travel.userId);
 
     if (!user) {
       throw new UserException();
@@ -51,7 +51,7 @@ export class UserService {
   async findByLogin(login: string) {
     const user = await this.prismaService.user.findUnique({
       where: {
-        login: login,
+        login: login
       }
     });
 
@@ -61,10 +61,25 @@ export class UserService {
 
     return user;
   }
-  async findAll(token: string) {
-    const user = await this.validateUser(token);
-    const users = await this.prismaService.user.findMany();
 
-    return users.filter(u => u.id !== user.id);
+  async findAllUnsubscribed(token: string) {
+    const user = await this.validateUser(token);
+    let users = await this.prismaService.user.findMany();
+    const subscribes = [];
+
+    const subscribers = await this.prismaService.subscriber.findMany({
+      where: { subscriberId: user.id }
+    });
+
+    for (let subscriber of subscribers) {
+      subscribes.push(await this.findById(subscriber.userId));
+    }
+
+    users = users.filter(u => u.id !== user.id);
+    for (let subscribe of subscribes) {
+      users = users.filter(u => u.id !== subscribe.id);
+    }
+
+    return users;
   }
 }

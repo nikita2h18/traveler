@@ -24,7 +24,7 @@ export class UserController {
   }
 
   @Get("all")
-  getAll(@Headers('token') token: string) {
-    return this.userService.findAll(token);
+  getAllUnsubscribed(@Headers('token') token: string) {
+    return this.userService.findAllUnsubscribed(token);
   }
 }

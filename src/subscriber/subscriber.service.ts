@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { UserService } from "../user/user.service";
 import { PrismaService } from "../prisma/prisma.service";
+import { log } from "util";
 
 @Injectable()
 export class SubscriberService {
@@ -29,7 +30,7 @@ export class SubscriberService {
     const user = await this.userService.validateUser(token);
     const subscriber = await this.prismaService.subscriber.findFirst({
       where: {
-        subscriberId: user.id ,
+        subscriberId: user.id,
         userId: userId
       }
     });
@@ -40,9 +41,15 @@ export class SubscriberService {
     });
   }
 
-  async getUserSubscribers(userId: number) {
-    return this.prismaService.subscriber.findMany({
-      where: { id: userId }
+  async getUserSubscribes(userId: number) {
+    const users = [];
+    const subscribes = await this.prismaService.subscriber.findMany({
+      where: { subscriberId: userId }
     });
+
+    for (let subscribe of subscribes) {
+      users.push(await this.userService.findById(subscribe.userId));
+    }
+    return users;
   }
 }
