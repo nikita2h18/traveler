@@ -10,6 +10,7 @@ import { TravelModule } from "./travel/travel.module";
 import { LikeModule } from './like/like.module';
 import { CommentModule } from "./comment/comment.module";
 import { SubscriberModule } from "./subscriber/subscriber.module";
+import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
@@ -21,7 +22,8 @@ import { SubscriberModule } from "./subscriber/subscriber.module";
     TravelModule,
     LikeModule,
     CommentModule,
-    SubscriberModule
+    SubscriberModule,
+    ChatModule
   ],
   controllers: [
     AppController,
