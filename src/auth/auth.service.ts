@@ -19,6 +19,9 @@ export class AuthService {
       throw new AuthException();
     }
 
-    return { token: this.jwtService.sign({ login: user.login, sub: user.id }) };
+    return {
+      token: this.jwtService.sign({ login: user.login, sub: user.id }),
+      userId: user.id
+    };
   }
 }

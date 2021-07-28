@@ -11,6 +11,7 @@ import { LikeModule } from './like/like.module';
 import { CommentModule } from "./comment/comment.module";
 import { SubscriberModule } from "./subscriber/subscriber.module";
 import { ChatModule } from './chat/chat.module';
+import { NotificationModule } from './notification/notification.module';
 
 @Module({
   imports: [
@@ -23,7 +24,8 @@ import { ChatModule } from './chat/chat.module';
     LikeModule,
     CommentModule,
     SubscriberModule,
-    ChatModule
+    ChatModule,
+    NotificationModule
   ],
   controllers: [
     AppController,

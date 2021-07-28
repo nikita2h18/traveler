@@ -20,5 +20,4 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   async onChat(client, message){
     client.broadcast.emit('chat', message);
   }
-
 }
