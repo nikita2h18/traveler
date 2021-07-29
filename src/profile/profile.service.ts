@@ -28,6 +28,18 @@ export class ProfileService {
     });
   }
 
+  async editProfile(token: string, profileDto: ProfileDto) {
+    const user = await this.userService.validateUser(token);
+    return this.prismaService.profile.update({
+      where: {userId: user.id},
+      data: {
+        name: profileDto.name,
+        lastname: profileDto.lastname,
+        birthday: new Date(profileDto.birthday)
+      }
+    });
+  }
+
   async getProfile(userId: number) {
     return this.prismaService.profile.findMany({
       where: {

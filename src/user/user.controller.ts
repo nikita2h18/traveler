@@ -9,8 +9,8 @@ export class UserController {
   }
 
   @Get("travel/:id")
-  getUserByTravel(@Param() param) {
-    return this.userService.findByTravel(Number(param.id));
+  getUserByTravel(@Param('id') id) {
+    return this.userService.findByTravel(Number(id));
   }
 
   @Get("get")

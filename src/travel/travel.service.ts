@@ -16,7 +16,7 @@ export class TravelService {
 
   async addTravel(token: string, travelDto: TravelDto) {
     const user = await this.userService.validateUser(token);
-    await this.notificationService.onNotify();
+    await this.notificationService.onNotify(user.id);
     return this.prismaService.user.update({
       where: { id: user.id },
       data: {

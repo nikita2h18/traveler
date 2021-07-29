@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Headers, Param, Post } from "@nestjs/common";
+import { Body, Controller, Get, Headers, Param, Post, Put } from "@nestjs/common";
 import { ProfileService } from "./profile.service";
 import { ProfileDto } from "../dto/ProfileDto";
 import { User } from "../model/User";
@@ -11,6 +11,11 @@ export class ProfileController {
   @Post('create')
   createProfile(@Headers('token') token: string, @Body() profileDto: ProfileDto) {
     return this.profileService.createProfile(token, profileDto);
+  }
+
+  @Put('edit')
+  edit(@Headers('token') token: string, @Body() profileDto: ProfileDto) {
+    return this.profileService.editProfile(token, profileDto);
   }
 
   @Get(':id')

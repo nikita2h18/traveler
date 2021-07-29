@@ -25,13 +25,13 @@ import { NotificationModule } from './notification/notification.module';
     CommentModule,
     SubscriberModule,
     ChatModule,
-    NotificationModule
+    NotificationModule,
   ],
   controllers: [
     AppController,
   ],
   providers: [
-    AppService
+    AppService,
   ]
 })
 export class AppModule {
