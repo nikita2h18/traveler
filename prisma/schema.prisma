@@ -8,12 +8,13 @@ datasource db {
 }
 
 model User {
-  id       Int      @id @default(autoincrement())
-  login    String   @unique
-  password String
-  profile  Profile?
-  travel   Travel[]
-  subscriber Subscriber[]
+  id           Int            @id @default(autoincrement())
+  login        String         @unique
+  password     String
+  profile      Profile?
+  subscriber   Subscriber[]
+  travel       Travel[]
+  notification Notification[]
 }
 
 model Profile {
@@ -52,8 +53,15 @@ model Comment {
 }
 
 model Subscriber {
-  id       Int    @id @default(autoincrement())
+  id           Int  @id @default(autoincrement())
   subscriberId Int
-  userId  Int
-  user User @relation(fields: [userId], references: [id])
+  userId       Int
+  user         User @relation(fields: [userId], references: [id])
+}
+
+model Notification {
+  id         Int     @id @default(autoincrement())
+  isSeen Boolean @default(false)
+  userId     Int?
+  user       User?   @relation(fields: [userId], references: [id])
 }

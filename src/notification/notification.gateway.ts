@@ -22,7 +22,7 @@ export class NotificationGateway implements OnGatewayConnection, OnGatewayDiscon
   }
 
   handleConnection(client: Socket, ...args: any[]) {
-    console.log('client: '+ client.handshake.auth.userId);
+    console.log("client: " + client.handshake.auth.userId);
     this.clients.push(client);
   }
 
@@ -43,12 +43,18 @@ export class NotificationGateway implements OnGatewayConnection, OnGatewayDiscon
     for (let sub of subs) {
       listeners = this.clients.filter(client => {
         return client.handshake.auth.userId === sub.subscriberId;
-      })
+      });
+    }
+
+    for (let listener of listeners) {
+      this.prismaService.user.update({
+        where: { id: Number(listener.handshake.auth.userId) },
+        data: { notification: { create: {} } }
+      });
     }
 
     listeners.forEach(client => {
-      console.log(client.handshake.auth.userId);
-      client.emit("notify", {userId: userId});
-    })
+      client.emit("notify", { userId: userId });
+    });
   }
 }
