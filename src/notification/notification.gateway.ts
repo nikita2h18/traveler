@@ -8,7 +8,6 @@ import {
 import { Socket } from "socket.io";
 import { Logger } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
-import { log } from "util";
 
 
 @WebSocketGateway()
@@ -22,7 +21,8 @@ export class NotificationGateway implements OnGatewayConnection, OnGatewayDiscon
   ) {
   }
 
-  async handleConnection(client: Socket, ...args: any[]) {
+  handleConnection(client: Socket, ...args: any[]) {
+    console.log('client: '+ client.handshake.auth.userId);
     this.clients.push(client);
   }
 
@@ -30,19 +30,25 @@ export class NotificationGateway implements OnGatewayConnection, OnGatewayDiscon
     this.clients = this.clients.filter(c => c.handshake.auth.userId !== client.handshake.auth.userId);
   }
 
-  @SubscribeMessage('notify')
   async onNotify(userId: number) {
     const subs = await this.prismaService.subscriber.findMany({
       where: {
-        subscriberId: userId
+        userId: userId
       }
     });
-    let clientsToNotify: Socket[];
+
+    console.log(subs);
+    let listeners: Socket[];
 
     for (let sub of subs) {
-      clientsToNotify = this.clients.filter(client => client.handshake.auth.userId === sub.userId)
+      listeners = this.clients.filter(client => {
+        return client.handshake.auth.userId === sub.subscriberId;
+      })
     }
 
-    clientsToNotify.forEach(client => client.emit('notify', "{userId: userId}"))
+    listeners.forEach(client => {
+      console.log(client.handshake.auth.userId);
+      client.emit("notify", {userId: userId});
+    })
   }
 }
