@@ -8,6 +8,7 @@ import {
 import { Socket } from "socket.io";
 import { Logger } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
+import { UserService } from "../user/user.service";
 
 
 @WebSocketGateway()
@@ -17,17 +18,26 @@ export class NotificationGateway implements OnGatewayConnection, OnGatewayDiscon
 
   constructor(
     private logger: Logger,
-    private prismaService: PrismaService
+    private prismaService: PrismaService,
+    private userService: UserService
   ) {
   }
 
   handleConnection(client: Socket, ...args: any[]) {
-    console.log("client: " + client.handshake.auth.userId);
     this.clients.push(client);
   }
 
   handleDisconnect(client: Socket) {
     this.clients = this.clients.filter(c => c.handshake.auth.userId !== client.handshake.auth.userId);
+  }
+
+  async getNotification(token: string) {
+    const user = await this.userService.validateUser(token);
+    return this.prismaService.notification.findMany({
+      where: {
+        userId: user.id
+      }
+    });
   }
 
   async onNotify(userId: number) {
@@ -37,7 +47,6 @@ export class NotificationGateway implements OnGatewayConnection, OnGatewayDiscon
       }
     });
 
-    console.log(subs);
     let listeners: Socket[];
 
     for (let sub of subs) {
@@ -46,15 +55,23 @@ export class NotificationGateway implements OnGatewayConnection, OnGatewayDiscon
       });
     }
 
-    for (let listener of listeners) {
-      this.prismaService.user.update({
-        where: { id: Number(listener.handshake.auth.userId) },
-        data: { notification: { create: {} } }
+    for (let sub of subs) {
+      await this.prismaService.user.update({
+        where: { id: sub.subscriberId },
+        data: {
+          notification: {
+            create: {
+              subscribeId: userId
+            }
+          }
+        }
       });
     }
 
-    listeners.forEach(client => {
-      client.emit("notify", { userId: userId });
-    });
+    if (!!listeners) {
+      listeners.forEach(client => {
+        client.emit("notify", { userId: userId });
+      });
+    }
   }
 }
