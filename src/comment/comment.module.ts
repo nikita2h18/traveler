@@ -5,10 +5,14 @@ import { UserModule } from "../user/user.module";
 import { TravelService } from "../travel/travel.service";
 import { PrismaService } from "../prisma/prisma.service";
 import { NotificationGateway } from "../notification/notification.gateway";
+import { CloudinaryModule } from "../cloudinary/cloudinary.module";
 
 @Module({
   controllers: [CommentController],
-  imports: [UserModule],
+  imports: [
+    UserModule,
+    CloudinaryModule
+  ],
   providers: [
     CommentService,
     TravelService,

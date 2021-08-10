@@ -1,16 +1,18 @@
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { TravelDto } from "../dto/TravelDto";
 import { UserService } from "../user/user.service";
 import { PrismaService } from "../prisma/prisma.service";
 import { NotificationGateway } from "../notification/notification.gateway";
+import { CloudinaryService } from "../cloudinary/cloudinary.service";
+import { log } from "util";
 
 @Injectable()
 export class TravelService {
   constructor(
     private readonly userService: UserService,
     private readonly prismaService: PrismaService,
-    private notificationService: NotificationGateway
-
+    private notificationService: NotificationGateway,
+    private cloudinary: CloudinaryService
   ) {
   }
 
@@ -24,7 +26,8 @@ export class TravelService {
           create: {
             description: travelDto.description,
             pointFrom: travelDto.pointFrom,
-            pointTo: travelDto.pointTo
+            pointTo: travelDto.pointTo,
+            image: travelDto.image
           }
         }
       }
@@ -47,5 +50,12 @@ export class TravelService {
         userId: id
       }
     })
+  }
+
+  async uploadImageToCloudinary(file: Express.Multer.File) {
+    const image = await this.cloudinary.uploadImage(file).catch(() => {
+      throw new BadRequestException('Invalid file type.');
+    });
+    return image.url
   }
 }

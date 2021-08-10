@@ -3,6 +3,7 @@ export class TravelDto {
     public description: string,
     public pointFrom: string,
     public pointTo: string,
+    public image: string
   ) {
   }
 }

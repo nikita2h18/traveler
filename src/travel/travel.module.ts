@@ -8,10 +8,12 @@ import { UserModule } from "../user/user.module";
 import { jwtConstants } from "../auth/constants";
 import { NotificationModule } from "../notification/notification.module";
 import { NotificationGateway } from "../notification/notification.gateway";
+import { CloudinaryModule } from "../cloudinary/cloudinary.module";
 
 @Module({
   imports: [
     UserModule,
+    CloudinaryModule
   ],
   controllers: [TravelController],
   providers: [

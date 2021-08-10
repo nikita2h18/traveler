@@ -12,6 +12,7 @@ import { CommentModule } from "./comment/comment.module";
 import { SubscriberModule } from "./subscriber/subscriber.module";
 import { ChatModule } from './chat/chat.module';
 import { NotificationModule } from './notification/notification.module';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { NotificationModule } from './notification/notification.module';
     SubscriberModule,
     ChatModule,
     NotificationModule,
+    CloudinaryModule,
   ],
   controllers: [
     AppController,
