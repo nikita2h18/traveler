@@ -35,7 +35,8 @@ export class NotificationGateway implements OnGatewayConnection, OnGatewayDiscon
     const user = await this.userService.validateUser(token);
     return this.prismaService.notification.findMany({
       where: {
-        userId: user.id
+        userId: user.id,
+        isSeen: false
       }
     });
   }
@@ -47,12 +48,12 @@ export class NotificationGateway implements OnGatewayConnection, OnGatewayDiscon
       }
     });
 
-    let listeners: Socket[];
-
+    let listeners: Socket[] = [];
     for (let sub of subs) {
-      listeners = this.clients.filter(client => {
-        return client.handshake.auth.userId === sub.subscriberId;
-      });
+      listeners.push(...this.clients.filter(
+        client => client.handshake.auth.userId === sub.subscriberId
+        )
+      );
     }
 
     for (let sub of subs) {
@@ -71,6 +72,16 @@ export class NotificationGateway implements OnGatewayConnection, OnGatewayDiscon
     if (!!listeners) {
       listeners.forEach(client => {
         client.emit("notify", { userId: userId });
+      });
+    }
+  }
+
+  async seen(token: string, notifications) {
+    await this.userService.validateUser(token);
+    for (let notification of notifications) {
+      await this.prismaService.notification.update({
+        where: { id: notification.id },
+        data: { isSeen: true }
       });
     }
   }
